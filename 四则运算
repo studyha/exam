@@ -1,0 +1,115 @@
+
+/*
+ * 要求：
+ * 生成任意数量的四则运算：有输入结果个数的变量
+ * 支持真分数运算（需要验证结果的正确性）当分母大于分子时可以生成这个数，否则就不生成分数
+ * 题目避免重复：这就要求有储存结果的空间，每生成一个就会和已有的作比较
+ * 完成时间：2个半小时
+ */
+import java.util.*;
+
+public class yunsuan {
+	public static void main(String args[])
+	{
+		Scanner input=new Scanner (System.in);
+		System.out.println("请输入要生成四则运算的个数：");
+		int n=input.nextInt();
+		
+		char fuhao;
+		int suiji1,suiji2,suiji3,suiji4;//suiji1表示第一个数，suiji2表示第二个数，suiji4表示第三个数，suiji3表示符号
+		//String yunsuan[] = null;
+		String[] yunsuan = new String[100];
+		double suiji;
+		System.out.println("运算式和结果是：");
+		int i=0;
+		while(i<n)
+		{
+			suiji1=suijishu();
+			suiji2=suijishu();//suiji1/suiji2
+			suiji3=suijizifu();
+			suiji4=suijishu();
+			 if(suiji3==0)fuhao='+';
+		     else if(suiji3==1)fuhao='-';
+		     else if(suiji3==2)fuhao='*';
+		     else fuhao='/';
+		     if(suiji1<suiji2&&suiji2!=0)
+		     {
+		    	 String sj="";i++;
+		    	sj=suiji1+"/"+suiji2+""+fuhao+""+suiji4;
+		    	if(panduan(sj,yunsuan,i)==true)
+		    		{yunsuan[i-1]=sj;
+		    	     display(suiji1,suiji2,suiji4,fuhao);
+		    		}
+		    	
+		     }
+		     else 
+		     {
+		    	 String sj1="";
+			    	sj1=suiji1+""+fuhao+""+suiji4;i++;
+			    	if(panduan(sj1,yunsuan,i)==true)
+			    	{
+			    		yunsuan[i-1]=sj1;
+			    		display(suiji1,1,suiji4,fuhao);
+		              }
+	      }
+		}
+	}
+	//产生随机数
+	 public static int suijishu()
+	   {
+		   int suiji;
+		   suiji=(int)(Math.random()*100);
+		   return suiji;
+	   }
+	 //产生随机字符
+	 public static int suijizifu()
+	   {
+		   int suijifu;
+		   suijifu=(int)(Math.random()*4);
+		   return suijifu;
+	   }
+	 //输出四则运算和结果函数
+	 public static void display(int a1,int a2,int b,char c)
+	 {
+		/* String aa="";
+		 aa=aa+a+c+b+"=";
+		 System.out.print(aa);*/
+		 if(a2==1)
+		 {
+			 System.out.print(a1);
+		 }
+		 else  System.out.print(a1+"/"+a2);
+		 System.out.print(c);
+		 System.out.print(b+"=");
+		 double result = 0;
+		 if(c=='+')
+		 {
+			 result=((double)a1/(double)a2)+(double)b;
+		 }
+		 else if(c=='-')
+		 {
+			 result=((double)a1/(double)a2)-(double)b;
+		 }
+		 else  if(c=='*')
+		 {
+			// result=(a1/a2)*b;
+			 result=((double)a1/(double)a2)*(double)b;
+		 }
+		 else  if(c=='/')
+		 {
+			 //result=(a1/a2)/b;
+			 result=((double)a1/(double)a2)/(double)b;
+		 }
+		 System.out.println(result);
+	 }
+	 public static boolean panduan(String a,String aa[],int i)
+	 {
+		 boolean flag = false ;//0表示不重复，1表示重复
+		 for(int m=0;m<i;m++)
+		 {flag=true;
+			 if(a.equals(aa[m])){flag=false;break;}
+			 else {flag=true;}
+		 }
+		 return flag;
+	 }
+}
