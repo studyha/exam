@@ -1,0 +1,62 @@
+import java.util.Scanner;
+public class Array {
+	public static void main(String args[])
+	{
+		Scanner s=new Scanner(System.in);
+		System.out.println("请输入数组的个数：");
+		int n=s.nextInt();
+		int n1=2*n-1;
+		int a[]=new int[n];//数组
+		int a1[]=new int[2*n-1];
+		int b[]=new int[n];//最大值
+		int max=0;//表示一个无穷小的数
+		//输入n个数
+		for(int i=0;i<n;i++)
+		{
+			System.out.print("请输入第"+ (i+1)+"个数：");
+			s=new Scanner(System.in);
+			a[i]=s.nextInt();
+		}
+		
+		//首尾相连之后，就相当于在末尾加上除了最后一个数据的其他数据
+		System.out.print("首尾相连之后的数组结果是：");
+		for(int i=0;i<2*n-1;i++)//数组长度变为2*n-1
+		{
+			if(i<n)a1[i]=a[i];
+			else a1[i]=a[i-n];
+			System.out.print(a1[i]+" ");
+		}
+		System.out.println();
+			
+	   for(int j=0;j<n;j++)
+		{//求出每次循环的最大值，存在b中
+		   //b的最大长度就是未首尾相连的长度。
+			b[j]=Max(b[j],a1,n1,j);
+		}
+		
+		int ma=b[0];//初始值为数组的第一个值
+		for(int i=0;i<n;i++)
+		{
+			//Max(b[j],a,n,j)
+			System.out.print("当i为"+i+"时，子数组的和的最大值是：");
+			System.out.println(b[i]+" ");
+			if(ma<b[i])ma=b[i];
+		}
+		
+		System.out.println("最大值是："+ma);
+	}
+	//判断最大值 b为最大值，a1是数组，n是数组中元素的个数，m是起始下标
+	public static int Max(int b,int a1[],int n,int m)
+	{
+		b=a1[m];int b1=a1[m];
+		for(int i=m;i<n;i++)
+		{
+			{
+				if(i==m)b1=b1;
+				else b1=b1+a1[i];
+			}
+			if(b<b1)b=b1;
+		}
+		return b;
+	}
+}
